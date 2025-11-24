@@ -1,0 +1,16 @@
+name: Deploy Astro to GitHub Pages
+on:
+  push:
+    branches: [main] # 推main分支触发部署
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2 # 用Bun构建
+      - run: bun install
+      - run: bun run build # Astro构建生成dist
+      - uses: peaceiris/actions-gh-pages@v4 # 部署到gh-pages分支
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist # 部署dist目录
